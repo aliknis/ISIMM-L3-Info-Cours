@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<etudiant id="E001" niveau="8" specialite="Informatique">
+  <nom>Ben Ali</nom>
+  <prenom>Ahmed</prenom>
+  <age>21</age>
+  <email>ahmed@example.com</email>
+  <specialite>Informatique</specialite>
+</etudiant>

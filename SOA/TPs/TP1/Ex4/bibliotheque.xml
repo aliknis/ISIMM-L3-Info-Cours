@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bibliotheque>
+  <livre id="L001">
+    <titre>XML pour debutants</titre>
+    <auteur>...</auteur>
+    <annee>2025</annee>
+    <prix>35</prix>
+    <genre>Informatique</genre>
+  </livre>
+  <livre id="L002">
+    <titre>Socket Programming</titre>
+    <auteur>...</auteur>
+    <annee>2022</annee>
+    <prix>50</prix>
+    <genre>Informatique</genre>
+  </livre>
+  <livre id="L003">
+    <titre>Extreme Security</titre>
+    <auteur>...</auteur>
+    <annee>2026</annee>
+    <prix>15</prix>
+    <genre>Informatique</genre>
+  </livre>
+  <livre id="L004">
+    <titre>Declarative Programming</titre>
+    <auteur>...</auteur>
+    <annee>2020</annee>
+    <prix>25</prix>
+    <genre>Informatique</genre>
+  </livre>
+  <livre id="L005">
+    <titre>Linux for fun</titre>
+    <auteur>...</auteur>
+    <annee>2026</annee>
+    <prix>30</prix>
+    <genre>Informatique</genre>
+  </livre>
+</bibliotheque>

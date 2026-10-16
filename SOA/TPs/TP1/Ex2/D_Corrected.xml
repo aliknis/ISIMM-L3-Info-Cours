@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<root>
+  <etudiant>
+    <nom>Ali</nom>
+    <prenom>Ahmed</prenom>
+  </etudiant>
+  <enseignant>
+    <nom>Mohamed</nom>
+  </enseignant>
+</root>

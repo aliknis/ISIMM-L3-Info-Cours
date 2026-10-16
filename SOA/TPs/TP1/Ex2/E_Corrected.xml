@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<etudiant>
+  <nom>Ali</nom>
+  <prenom>Ahmed</prenom>
+  <!-- this is just a logique fix not a syntax fix-->
+</etudiant>
