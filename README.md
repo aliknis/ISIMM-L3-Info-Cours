@@ -6,6 +6,8 @@ L3 2026 Classroom codes:
 
     - (collected soon inshallah)
     - TP SOA: pevdbayn
+    - TP BPE(By Ms.Senda): 5g6xwtjc
+    - TP ML: 7x5rcuiv
 
 L3 2025(last year) Classroom codes: (pdf content already included in this repo. classroom codes exist here just for archieving Teachers Classroom notes)
 
