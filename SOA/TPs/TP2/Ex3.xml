@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="Ex3.xsd"?>
+<Bibliotheque>
+  <Livre Categorie="">
+    <Titre Langue="en">SOA</Titre>
+    <Auteur>Jean Michel</Auteur>
+    <Annee>2024</Annee>
+    <Prix>80 DT</Prix>
+  </Livre>
+</Bibliotheque>

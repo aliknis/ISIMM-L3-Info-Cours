@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-model href="Ex4.xsd"?>
+<gare>
+  <train numero="t5560" type="TGV">
+    <voiture numero="v1">
+      <resa numero="r17" id="u55"/>
+      <resa numero="r18" id="u52"/>
+    </voiture>
+    <voiture numero="v2"/>
+    <voiture numero="v3"/>
+    <voiture numero="v4">
+      <bar service="froid uniquement"/>
+    </voiture>
+    <commentaire>Remplace l’ancien TGV <numero>t4215</numero></commentaire>
+  </train>
+  <train numero="t6731">
+    <voiture numero="v1"/>
+    <voiture numero="v2">
+      <resa numero="r15" id="u55"/>
+    </voiture>
+  </train>
+  <usager id="u55">
+    <prenom>Jean</prenom>
+    <nom>Dufour</nom>
+  </usager>
+  <usager id="u52">
+    <prenom>Brigitte</prenom>
+    <nom>Lefebvre</nom>
+  </usager>
+  <usager id="u56">
+    <prenom>Patrick</prenom>
+    <nom>Subiran</nom>
+  </usager>
+</gare>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carnet>
+  <contact>
+    <nom>DUPONT Michelle</nom>
+    <adresse>55, rue de 1'église</adresse>
+    <postal>31000 Toulouse</postal>
+    <number>05.60.12.45.56</number>
+    <number>06.56.34.46.89</number>
+    <email>dupmich@yahoo.fr</email>
+  </contact>
+  <contact>
+    <nom>ERNEST Francois</nom>
+    <adresse>12, avenue Jean Jaurés</adresse>
+    <postal>31000 Toulouse</postal>
+    <number>06.12.45.89.58</number>
+  </contact>
+  <contact>
+    <nom>GILBERT Jean</nom>
+    <adresse>1, rue du chateau d’eau</adresse>
+    <postal>31000 Toulouse</postal>
+    <number>05.67.34.56.93</number>
+    <email>gibjean@wandoo.fr</email>
+  </contact>
+</carnet>

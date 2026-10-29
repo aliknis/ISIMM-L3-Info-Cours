@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<films>
+  <film regie="Tom Tykwer" titre="Cours, Lola cours">
+    <description><nom type="f">lola</nom><nom type="m">Manni</nom>[reste du texte]</description>
+  </film>
+</films>
