@@ -5,6 +5,8 @@ final year and final three months. lets end them well inshallah
 L3 2026 Classroom codes:
 
     - (collected soon inshallah)
+    - Cours BPE: hewqsnor
+    - Cours Security: g6f5au23
     - Cours BigData: 4laukery
     - Cours ESA: ru334aq5
     - TP SOA: pevdbayn
