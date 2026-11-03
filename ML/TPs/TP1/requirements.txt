@@ -1,0 +1,9 @@
+# Lab 1 - Machine Learning (3rd-Year Software Engineering, ISIMM)
+# Install with:  pip install -r requirements.txt
+# Minimum versions are conservative lower bounds for the APIs used in this lab;
+# the lab was executed with the versions listed in the handout (section "Tested with").
+numpy>=1.23
+pandas>=1.5
+matplotlib>=3.6
+scikit-learn>=1.2
+jupyter
