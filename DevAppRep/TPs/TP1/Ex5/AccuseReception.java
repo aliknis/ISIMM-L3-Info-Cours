@@ -1,4 +1,4 @@
-package exercice5;
+package Ex5;
 
 import java.io.*;
 

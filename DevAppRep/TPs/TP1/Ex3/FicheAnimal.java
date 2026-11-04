@@ -1,4 +1,4 @@
-package exercice3v1;
+package Ex3;
 
 import java.io.*;
 import java.time.LocalDate;
