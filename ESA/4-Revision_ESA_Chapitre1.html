@@ -1,0 +1,916 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Révision ESA Chapitre 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Concept : plan d'architecte. Papier millimétré bleu, encre marine, un seul orange de repérage. */
+:root{
+  --paper:#EDF1F6; --card:#FFFFFF; --ink:#0E1E33; --muted:#51647C; --line:#C4D0E0; --grid:#DCE4EE;
+  --blue:#1D4ED8; --on-blue:#FFFFFF; --blue-soft:#DCE6FB;
+  --signal:#C2410C; --signal-soft:#FDE6DA;
+  --ok:#0F7B4B; --ok-soft:#D5F1E3; --bad:#B42318; --bad-soft:#FBE0DD;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0A1829; --card:#112238; --ink:#E7EEF8; --muted:#9FB2C8; --line:#2B4767; --grid:#0F2339;
+    --blue:#7FB0FF; --on-blue:#06101F; --blue-soft:#17325C;
+    --signal:#FF9B6A; --signal-soft:#3A2218;
+    --ok:#4FD09A; --ok-soft:#10382A; --bad:#FF8C80; --bad-soft:#41191A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0A1829; --card:#112238; --ink:#E7EEF8; --muted:#9FB2C8; --line:#2B4767; --grid:#0F2339;
+  --blue:#7FB0FF; --on-blue:#06101F; --blue-soft:#17325C;
+  --signal:#FF9B6A; --signal-soft:#3A2218;
+  --ok:#4FD09A; --ok-soft:#10382A; --bad:#FF8C80; --bad-soft:#41191A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  color:var(--ink); font-family:var(--body); font-size:clamp(16px,0.55vw + 11px,24px); line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 3em;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:.72em;letter-spacing:.09em;text-transform:uppercase}
+
+/* en-tête collant */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--paper);border-bottom:2px solid var(--ink);padding-block:.7em .6em}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em 1em;margin-bottom:.5em}
+.brand h1{font-size:1.5em;font-weight:800}
+.brand .mono{color:var(--muted)}
+.tabs{display:flex;flex-wrap:wrap;gap:.4em}
+.tab{display:flex;align-items:center;gap:.5em;padding:.45em .9em;border:2px solid var(--ink);background:var(--card);border-radius:.35em;font-weight:600;min-width:0}
+.tab b{font-family:var(--mono);font-size:.8em;display:inline-grid;place-items:center;width:1.7em;height:1.7em;border:1.5px solid currentColor;border-radius:50%}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab:hover{background:var(--blue-soft)}
+.tab[aria-selected="true"]:hover{background:var(--ink)}
+.themebtn{margin-left:auto;padding:.45em .8em;border:2px solid var(--line);background:transparent;border-radius:.35em;color:var(--muted);font-size:.85em}
+
+/* titre de partie */
+.hero{padding-block:1.4em .6em;display:grid;gap:.5em}
+.hero h2{font-size:2.3em;font-weight:800}
+.hero p{margin:0;max-width:46em;color:var(--muted);font-size:1.05em}
+.hook{display:inline-block;border:2px dashed var(--signal);color:var(--signal);padding:.35em .8em;border-radius:.3em;font-weight:600;max-width:46em}
+
+.subtabs{display:flex;flex-wrap:wrap;gap:.3em;margin-block:.8em 1em;border-bottom:2px solid var(--line)}
+.sub{padding:.5em 1em;border:none;background:none;font-weight:600;color:var(--muted);border-bottom:4px solid transparent;margin-bottom:-2px}
+.sub[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--signal)}
+.sub:hover{color:var(--ink)}
+
+.panel{display:grid;gap:1em}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:.5em;padding:1em 1.2em;min-width:0}
+.card h3{font-size:1.25em;margin-bottom:.4em}
+.lead{font-size:1.05em;color:var(--muted);margin:0}
+
+/* essentiel */
+.points{display:grid;grid-template-columns:repeat(auto-fit,minmax(15em,1fr));gap:1em}
+.point{display:grid;gap:.4em;align-content:start}
+.point .n{font-family:var(--display);font-size:2.4em;font-weight:800;color:var(--blue);line-height:1}
+.point p{margin:0}
+.agence{border:2px dashed var(--signal);border-radius:.5em;padding:1em 1.2em;background:var(--signal-soft)}
+.agence .mono{color:var(--signal);display:block;margin-bottom:.4em}
+.agence p{margin:.2em 0}
+.visual{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{border:1.5px solid var(--line);padding:.5em .7em;text-align:left;vertical-align:top}
+th{background:var(--blue-soft);font-family:var(--display)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(12em,1fr));gap:.8em;align-items:stretch}
+.box{border:2px solid var(--ink);border-radius:.4em;padding:.7em .9em;background:var(--card);min-width:0}
+.box.b{background:var(--blue-soft)} .box.s{background:var(--signal-soft)}
+.box h4{margin:0 0 .2em;font-family:var(--display);font-size:1.1em}
+.box p{margin:0;font-size:.9em;color:var(--muted)}
+.arrow{font-family:var(--mono);color:var(--signal);font-weight:600;text-align:center;align-self:center}
+.layers{display:grid;gap:.4em;max-width:30em}
+.layers .box{text-align:center}
+.steps6{display:grid;grid-template-columns:repeat(auto-fit,minmax(11em,1fr));gap:.6em;counter-reset:s}
+.steps6 .box{counter-increment:s}
+.steps6 .box::before{content:counter(s);font-family:var(--mono);font-weight:600;color:var(--signal);display:block}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(11em,1fr));gap:.6em}
+.tl .box h4{color:var(--blue)}
+
+/* cartes à retourner */
+.toolbar{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.btn{padding:.5em 1.1em;border:2px solid var(--ink);background:var(--card);border-radius:.35em;font-weight:600}
+.btn:hover{background:var(--blue-soft)}
+.btn.primary{background:var(--blue);color:var(--on-blue);border-color:var(--blue)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:default}
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:.9em}
+.flip{perspective:900px;border:none;background:none;padding:0;min-height:11em;text-align:left}
+.flip .in{display:block}
+.flip .in{position:relative;width:100%;height:100%;min-height:11em;transform-style:preserve-3d;transition:transform .45s}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:2px solid var(--ink);border-radius:.5em;padding:.8em 1em;display:flex;flex-direction:column;justify-content:center;gap:.3em;overflow:auto}
+.face.f{background:var(--card)}
+.face.f strong{font-family:var(--display);font-size:1.25em}
+.face.f .mono{color:var(--muted)}
+.face.k{background:var(--blue);color:var(--on-blue);transform:rotateY(180deg);font-size:.95em}
+
+/* quiz */
+.qhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5em;align-items:center}
+.bar{height:.55em;background:var(--line);border-radius:1em;overflow:hidden;flex:1;min-width:6em}
+.bar i{display:block;height:100%;background:var(--blue);transition:width .3s}
+.q{font-family:var(--display);font-size:1.5em;font-weight:600;line-height:1.25;margin:.6em 0}
+.opts{display:grid;gap:.6em}
+.opt{display:flex;gap:.8em;align-items:flex-start;text-align:left;padding:.7em 1em;border:2px solid var(--ink);background:var(--card);border-radius:.45em;min-width:0}
+.opt .l{font-family:var(--mono);font-weight:600;flex:none;width:1.9em;height:1.9em;display:grid;place-items:center;border:1.5px solid currentColor;border-radius:.3em}
+.opt:hover:not(:disabled){background:var(--blue-soft)}
+.opt.good{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+.opt.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--ink)}
+.opt:disabled{cursor:default}
+.fb{margin-top:.8em;padding:.8em 1em;border-radius:.45em;border:2px solid var(--line);background:var(--card)}
+.fb.good{border-color:var(--ok)} .fb.bad{border-color:var(--bad)}
+.fb strong{display:block;font-family:var(--display);font-size:1.15em}
+.fb.good strong{color:var(--ok)} .fb.bad strong{color:var(--bad)}
+.score{font-family:var(--display);font-size:3.4em;font-weight:800;line-height:1}
+.pbars{display:grid;gap:.4em;margin-top:.8em}
+.pbar{display:grid;grid-template-columns:minmax(7em,12em) 1fr auto;gap:.6em;align-items:center}
+
+/* classer / ordre / arbre */
+.sortcard{text-align:center;padding:1.2em}
+.sortitem{font-family:var(--display);font-size:1.6em;font-weight:600;margin:.3em auto .8em;max-width:26em;text-wrap:balance}
+.buckets{display:flex;flex-wrap:wrap;gap:.6em;justify-content:center}
+.bucket{padding:.7em 1.3em;border:2px solid var(--ink);background:var(--card);border-radius:.45em;font-weight:600;min-width:9em}
+.bucket small{display:block;font-weight:400;color:var(--muted)}
+.bucket:hover:not(:disabled){background:var(--blue-soft)}
+.bucket.good{background:var(--ok-soft);border-color:var(--ok)} .bucket.bad{background:var(--bad-soft);border-color:var(--bad)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pool{display:flex;flex-wrap:wrap;gap:.5em}
+.chip{padding:.5em .9em;border:2px solid var(--ink);background:var(--card);border-radius:.4em;text-align:left}
+.chip:hover:not(:disabled){background:var(--blue-soft)}
+.chip:disabled{opacity:.35;cursor:default}
+.seq{display:grid;gap:.4em;counter-reset:q;margin:.5em 0}
+.seq .slot{border:2px dashed var(--line);border-radius:.4em;padding:.4em .9em;min-height:2.4em;display:flex;gap:.7em;align-items:center}
+.seq .slot::before{counter-increment:q;content:counter(q);font-family:var(--mono);font-weight:600;color:var(--muted)}
+.seq .slot.fill{border-style:solid;border-color:var(--ok);background:var(--ok-soft)}
+.tree .qq{font-family:var(--display);font-size:1.5em;font-weight:600;margin:.3em 0 .8em}
+.trail{display:flex;flex-wrap:wrap;gap:.4em;margin-bottom:.6em}
+.trail span{padding:.2em .7em;border-radius:2em;background:var(--blue-soft);font-size:.85em}
+.result{border:3px solid var(--blue);border-radius:.5em;padding:1em 1.2em;background:var(--card)}
+.result h3{font-size:1.8em;color:var(--blue)}
+
+/* TD */
+.timer{font-family:var(--mono);font-size:1.6em;font-weight:600;min-width:3.6em;text-align:center}
+.timer.low{color:var(--bad)}
+.stepbox{display:grid;gap:.6em}
+.corr{border-top:2px dashed var(--line);padding-top:.6em;display:grid;gap:.4em}
+.corr[hidden]{display:none}
+.tag{display:inline-block;padding:.05em .55em;border-radius:.3em;background:var(--blue-soft);font-family:var(--mono);font-size:.8em}
+.pk{color:var(--signal);font-weight:600}
+.tbl{display:inline-block;margin:.3em .5em .3em 0;border:2px solid var(--ink);border-radius:.4em;background:var(--card);vertical-align:top}
+.tbl div:first-child{background:var(--ink);color:var(--paper);font-family:var(--display);font-weight:600;padding:.25em .8em}
+.tbl div+div{padding:.15em .8em;font-family:var(--mono);font-size:.85em}
+.fine{color:var(--muted);font-size:.9em;margin:0}
+@media (max-width:620px){.hero h2{font-size:1.8em}.pbar{grid-template-columns:1fr auto}.pbar .bar{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Révision ESA · Chapitre 1</h1>
+      <span class="mono">Architecture des systèmes d’entreprise · 3ème Licence · ISIMM</span>
+    </div>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Parties du chapitre"></div>
+  </div>
+</header>
+<main class="wrap" id="main">
+  <div class="hero" id="hero"></div>
+  <div class="subtabs" id="subtabs" role="tablist" aria-label="Activités"></div>
+  <div class="panel" id="panel" aria-live="polite"></div>
+</main>
+<script>
+/* Contenu fidèle au support de cours. Chaque partie : recap, visual, agence, cards, activities, quiz, td. */
+var PARTS = [];
+
+PARTS.push({
+  id: 'p1', tab: 'Système', num: '1',
+  title: 'Le système d’entreprise',
+  intro: 'Une entreprise est un ensemble de systèmes en interaction. On apprend à les distinguer, puis à situer le système d’information et le système informatique.',
+  hook: 'Question d’accroche : vous commandez un repas sur une application. Combien de systèmes interviennent ?',
+  recap: [
+    ['L’entreprise est un système', 'Trois sous-systèmes en interaction : pilotage (SP), information (SI) et opérant (SO).'],
+    ['SI et système informatique', 'Le SI regroupe toute l’information de l’entreprise. Le système informatique est sa partie informatisée.'],
+    ['Pourquoi informatiser ?', 'Productivité, meilleures conditions de travail, meilleur service, aide à la décision.']
+  ],
+  visual: '<div class="flow">' +
+    '<div class="box s"><h4>SO · Opérant</h4><p>Transforme et produit. Cœur de métier.</p></div>' +
+    '<div class="arrow">informations élémentaires →<br>← ordres, informations globales</div>' +
+    '<div class="box b"><h4>SI · Information</h4><p>Collecte, mémorise, traite et diffuse. Transforme en information élaborée.</p></div>' +
+    '<div class="arrow">informations élaborées →<br>← décisions</div>' +
+    '<div class="box"><h4>SP · Pilotage</h4><p>Réfléchir, décider, contrôler la qualité.</p></div></div>' +
+    '<p class="fine" style="margin-top:.8em">Le SI est un outil de communication interne : il relie le terrain (SO) à la direction (SP).</p>',
+  agence: ['Opérant : agents au comptoir, garage, voitures.', 'Information : fiches de réservation, contrats, factures.', 'Pilotage : la direction fixe les tarifs et la taille de la flotte.', 'Question : le cahier papier des réservations fait-il partie du SI ? du système informatique ?  Réponse : il fait partie du SI, mais pas du système informatique.'],
+  cards: [
+    ['Système', 'Ensemble d’éléments en interaction dynamique, organisé en fonction d’un but.'],
+    ['Système d’entreprise (SE)', 'Ressources (personnel, matériel, logiciel…) qui participent à 4 opérations sur l’information : stocker, classer, traiter, diffuser.'],
+    ['SP · Système de pilotage', 'Système de décision : réfléchir (adaptation, conception), décider (prévoir, planifier), contrôler la qualité.'],
+    ['SI · Système d’information', 'La mémoire et le lien : générer, mémoriser, diffuser et traiter l’information.'],
+    ['SO · Système opérant', 'Le cœur de métier : transformer et produire.'],
+    ['Système informatique', 'La partie du SI qui peut être automatisée, donc qui tourne sur des ordinateurs.'],
+    ['Informatiser le SI', 'Développer des logiciels qui représentent des parties du SI.'],
+    ['Aide à la décision', 'Business intelligence : synthèses et prévisions pour décider.']
+  ],
+  activities: [
+    { type: 'sort', title: 'Qui fait quoi dans l’agence ?', intro: 'Pour chaque élément de l’agence de location, choisissez le sous-système.',
+      buckets: [['SP', 'Pilotage'], ['SI', 'Information'], ['SO', 'Opérant']],
+      items: [
+        ['La direction fixe les tarifs de location', 0, 'Fixer les prix, c’est décider : pilotage.'],
+        ['Les fiches de réservation, contrats et factures', 1, 'Mémoriser et faire circuler l’information : système d’information.'],
+        ['L’agent remet les clés au client au comptoir', 2, 'Servir le client est le cœur de métier : opérant.'],
+        ['Le garage prépare et nettoie les voitures', 2, 'Transformer et produire le service : opérant.'],
+        ['Décider la taille de la flotte pour l’été', 0, 'Prévoir et planifier : pilotage.'],
+        ['Le tableau de bord remonte les locations du mois', 1, 'Il collecte et traite l’information pour la direction : SI. La décision, elle, reste au pilotage.'],
+        ['Contrôler la qualité du service rendu', 0, 'Contrôler la qualité fait partie du pilotage.']
+      ] },
+    { type: 'sort', title: 'Informatisé ou pas ?', intro: 'Tout cela fait partie du SI. Lesquels sont dans le système informatique ?',
+      buckets: [['Reste dans le SI', 'non informatisé'], ['Système informatique', 'partie informatisée']],
+      items: [
+        ['Le carnet de commandes papier', 0, 'Papier : il appartient au SI sans être informatisé.'],
+        ['Le logiciel de caisse', 1, 'Un logiciel est la partie informatisée du SI.'],
+        ['La réunion du lundi matin', 0, 'L’information circule, mais pas par ordinateur.'],
+        ['La base de données des clients', 1, 'Données stockées sur ordinateur : système informatique.'],
+        ['La note de service affichée', 0, 'Information diffusée sur papier : SI non informatisé.'],
+        ['Le logiciel de paie', 1, 'Partie informatisée du SI.'],
+        ['La procédure papier de congés', 0, 'Papier : reste dans le SI.']
+      ] }
+  ],
+  quiz: [
+    { q: 'Un directeur ouvre une agence à l’aide d’un tableau de bord. Quel sous-système décide ?', o: ['Le système opérant', 'Le système d’information', 'Le système de pilotage', 'Aucun des trois'], a: 2, e: 'Le SI fournit le tableau de bord, mais la décision relève du pilotage (réfléchir, décider, contrôler).' },
+    { q: 'Lequel de ces éléments relève du système informatique ?', o: ['Une procédure papier de congés', 'Une note de service affichée', 'La réunion hebdomadaire', 'Le logiciel de paie'], a: 3, e: 'Le système informatique est la partie informatisée du SI. Les trois autres restent dans le SI sans être informatisés.' },
+    { q: 'Dans une pizzeria, le gérant qui fixe les prix relève de quel sous-système ?', o: ['Pilotage (SP)', 'Opérant (SO)', 'Information (SI)', 'Aucun des trois'], a: 0, e: 'Le pilotage décide et fixe les objectifs. La cuisine est l’opérant, la caisse relève de l’information.' },
+    { q: 'Quelles sont les 4 opérations sur l’information du système d’entreprise ?', o: ['Stocker, classer, traiter, diffuser', 'Créer, lire, modifier, supprimer', 'Produire, vendre, livrer, facturer', 'Planifier, décider, contrôler, adapter'], a: 0, e: 'Le système d’entreprise stocke, classe, traite et diffuse l’information.' },
+    { q: 'Une entreprise sans aucun ordinateur possède-t-elle un système d’information ?', o: ['Non, il faut des ordinateurs', 'Oui, toute entreprise possède un SI', 'Seulement si elle a un logiciel de paie', 'Seulement une grande entreprise'], a: 1, e: 'Toute entreprise possède un SI. Informatiser, c’est en automatiser une partie.' }
+  ],
+  td: { title: 'TD · Le système d’une clinique vétérinaire', enonce: 'Une clinique vétérinaire reçoit des animaux, tient un dossier par animal, et le directeur décide des horaires et des tarifs.', minutes: 8,
+    steps: [
+      ['Classez : vétérinaires et assistants en consultation, dossiers des animaux, directeur.', 'Opérant : vétérinaires et assistants (ils soignent). Information : dossiers des animaux. Pilotage : le directeur (horaires, tarifs).'],
+      ['Donnez un exemple d’information élémentaire et un d’information élaborée.', 'Élémentaire : une consultation enregistrée. Élaborée : le nombre de consultations par mois, remonté au directeur. Le SI collecte et traite pour produire l’information élaborée.'],
+      ['Le registre papier des vaccinations : SI ou système informatique ?', 'Il fait partie du SI, mais pas du système informatique, car il n’est pas informatisé.'],
+      ['Citez deux raisons d’informatiser ce SI.', 'Par exemple : productivité (retrouver un dossier plus vite) et aide à la décision (statistiques pour fixer les tarifs).']
+    ] }
+});
+
+PARTS.push({
+  id: 'p2', tab: 'Architecture', num: '2',
+  title: 'Architecture d’un système d’entreprise',
+  intro: 'Deux échelles à ne pas confondre : l’architecture d’entreprise (la ville) et l’architecture logicielle (la maison). Puis trois patrons pour organiser un logiciel.',
+  hook: 'Question : quels composants pour une application de réservation de voiture ?',
+  recap: [
+    ['L’ESA aligne', 'L’architecture d’entreprise aligne l’informatique sur les objectifs : stratégie, métier, technologie.'],
+    ['L’architecture logicielle organise', 'Composants actifs + mécanisme d’interaction + règles qui gouvernent l’interaction.'],
+    ['Concevoir', 'Définir la structure, choisir des patrons, viser les exigences non fonctionnelles, choisir les technologies.']
+  ],
+  visual: '<table><tr><th></th><th>Architecture d’entreprise</th><th>Architecture logicielle</th></tr>' +
+    '<tr><td><b>Image</b></td><td>Le plan d’une ville</td><td>Le plan d’une maison</td></tr>' +
+    '<tr><td><b>Portée</b></td><td>L’organisation entière</td><td>Une application précise</td></tr>' +
+    '<tr><td><b>But</b></td><td>Aligner l’informatique sur les objectifs</td><td>Satisfaire les exigences fonctionnelles et non fonctionnelles</td></tr>' +
+    '<tr><td><b>Pour</b></td><td>Direction, responsables métier</td><td>Équipes de développement</td></tr></table>' +
+    '<div class="flow" style="margin-top:1em"><div class="box b"><h4>Couches</h4><p>Un immeuble : présentation, métier, données. Chaque couche ne parle qu’à ses voisines.</p></div>' +
+    '<div class="box b"><h4>MVC</h4><p>Un restaurant : modèle (cuisine), vue (salle), contrôleur (serveur).</p></div>' +
+    '<div class="box b"><h4>Microservices</h4><p>Un food court : petits services indépendants, un seul rôle chacun.</p></div></div>',
+  agence: ['Ville : l’agence a plusieurs applications (réservation, facturation, flotte) qui doivent s’entendre.', 'Maison : le logiciel de réservation, organisé en couches ou en MVC.', 'Question : quels composants pour le logiciel de réservation de l’agence ?'],
+  cards: [
+    ['ESA', 'Architecture d’entreprise : structure globale de l’organisation. Aligne l’informatique sur les objectifs en optimisant ressources, processus et technologies.'],
+    ['Architecture logicielle', 'Organisation interne d’un logiciel : composants actifs, mécanisme d’interaction et règles qui gouvernent l’interaction.'],
+    ['Patron d’architecture', 'Organisation éprouvée d’un logiciel : couches, MVC, microservices. On ne réinvente pas le plan à chaque projet.'],
+    ['Patron en couches', 'Présentation, métier, données. Chaque couche ne parle qu’à celle du dessus et à celle du dessous.'],
+    ['MVC', 'Modèle : données et règles. Vue : affichage. Contrôleur : reçoit la demande et coordonne.'],
+    ['Microservices', 'Plusieurs petits services indépendants, un seul rôle chacun, souvent avec leur propre base. On en modifie un sans toucher aux autres.'],
+    ['Exigences non fonctionnelles', 'Performance, sécurité, scalabilité, maintenabilité, résilience.'],
+    ['Conception architecturale', 'Proposer une architecture logicielle : structure, patrons, exigences non fonctionnelles, technologies.']
+  ],
+  activities: [
+    { type: 'sort', title: 'La ville ou la maison ?', intro: 'Architecture d’entreprise (la ville) ou architecture logicielle (la maison) ?',
+      buckets: [['Ville', 'architecture d’entreprise'], ['Maison', 'architecture logicielle']],
+      items: [
+        ['Aligner l’informatique sur la stratégie de l’entreprise', 0, 'Alignement stratégie, métier, technologie : architecture d’entreprise.'],
+        ['Choisir MVC pour le logiciel de réservation', 1, 'Un patron d’architecture s’applique à une application précise.'],
+        ['Plusieurs applications (réservation, facturation, flotte) doivent s’entendre', 0, 'Vue globale de l’organisation : la ville.'],
+        ['Découper un logiciel en composants avec des interfaces', 1, 'Organisation interne d’un logiciel : la maison.'],
+        ['Document destiné à la direction et aux responsables métier', 0, 'Le public de l’architecture d’entreprise.'],
+        ['Document destiné aux équipes de développement', 1, 'Le public de l’architecture logicielle.'],
+        ['Restructurer le système quand l’activité de l’entreprise change', 0, 'La restructuration fait partie de ce qu’apporte une bonne ESA.'],
+        ['Choisir entre couches et microservices', 1, 'Choix d’un patron : conception architecturale d’un logiciel.']
+      ] },
+    { type: 'sort', title: 'Quel patron ?', intro: 'Reconnaissez le patron d’architecture à partir de sa description.',
+      buckets: [['Couches', 'immeuble'], ['MVC', 'restaurant'], ['Microservices', 'food court']],
+      items: [
+        ['Le contrôleur reçoit la demande « réserver » et met à jour le modèle', 1, 'Le contrôleur reçoit la demande, le modèle garde les règles, la vue affiche.'],
+        ['Chaque étage ne parle qu’à ses voisins du dessus et du dessous', 0, 'La règle des couches.'],
+        ['Réservation, Paiement et Catalogue sont trois services avec chacun leur base', 2, 'Un rôle par service, indépendants.'],
+        ['On peut refaire les écrans sans toucher à la base de données', 0, 'Avantage cité pour les couches.'],
+        ['On modifie le service Paiement sans toucher aux autres', 2, 'Avantage cité pour les microservices.'],
+        ['La vue affiche la confirmation de réservation', 1, 'La vue montre le résultat dans MVC.']
+      ] }
+  ],
+  quiz: [
+    { q: 'Lequel de ces éléments est un patron d’architecture ?', o: ['MySQL', 'MVC', 'Figma', 'Scrum'], a: 1, e: 'MVC est un patron, comme les couches ou les microservices. MySQL est une technologie, Figma un outil, Scrum une méthode agile.' },
+    { q: 'Quel est l’objectif de l’architecture d’entreprise ?', o: ['Écrire le code des applications', 'Choisir un langage de programmation', 'Dessiner les écrans d’une application', 'Aligner l’informatique sur les objectifs de l’entreprise'], a: 3, e: 'L’architecture d’entreprise relie la stratégie, le métier et la technologie.' },
+    { q: 'Dans le patron MVC, qui garde les voitures et les règles de réservation ?', o: ['Le modèle', 'La vue', 'Le contrôleur', 'L’utilisateur'], a: 0, e: 'Le contrôleur reçoit, le modèle garde les données et les règles, la vue montre le résultat.' },
+    { q: 'Une architecture logicielle est faite de…', o: ['Serveurs et réseaux', 'Composants actifs, mécanisme d’interaction et règles', 'Écrans et maquettes', 'Tables et clés'], a: 1, e: 'Composants actifs + mécanisme d’interaction + règles qui gouvernent l’interaction.' },
+    { q: 'Parmi ces qualités, laquelle est une exigence non fonctionnelle visée par la conception architecturale ?', o: ['Réserver une voiture', 'Consulter le catalogue', 'La sécurité', 'Enregistrer un client'], a: 2, e: 'Performance, sécurité, scalabilité, maintenabilité, résilience sont des exigences non fonctionnelles.' }
+  ],
+  td: { title: 'TD · Architecturer le logiciel de réservation de l’agence', enonce: 'Le logiciel de réservation de l’agence doit permettre de réserver une voiture, de payer en ligne et de consulter le catalogue.', minutes: 10,
+    steps: [
+      ['Proposez une architecture en couches.', 'Présentation : écrans et formulaires de réservation. Métier : les règles (une voiture déjà louée ne se réserve pas). Données : base des clients, voitures et réservations.'],
+      ['Placez Modèle, Vue et Contrôleur pour la demande « réserver ».', 'Le client envoie sa demande au contrôleur, qui met à jour le modèle (voitures, réservations, règles). Le modèle fournit les données à la vue, qui affiche la confirmation.'],
+      ['Découpez en microservices.', 'Réservation, Paiement et Catalogue : un rôle par service, chacun avec sa base (réservations, paiements, voitures). L’application client (le site) appelle les services.'],
+      ['Citez deux exigences non fonctionnelles de ce logiciel.', 'Par exemple : sécurité du paiement en ligne et performance (réponse rapide) ; ou maintenabilité si l’agence veut ajouter de nouveaux services.']
+    ] }
+});
+PARTS.push({
+  id: 'p3', tab: 'Méthodes', num: '3',
+  title: 'Mise en œuvre d’un système d’entreprise',
+  intro: 'Comment s’organiser pour construire le logiciel ? Trois familles de méthodologies : classiques, processus unifiés, agiles. Le choix dépend de la stabilité des besoins et du risque.',
+  hook: 'Question : quelle méthode pour l’application mobile de l’agence ? Justifiez avec les critères du cours.',
+  recap: [
+    ['Trois familles', 'Classiques (cascade, V, spirale, incrémental), processus unifiés (UP, RUP, 2TUP), agiles (Scrum, Kanban, RAD, XP).'],
+    ['Planifier ou s’adapter', 'Classique : on planifie tout d’abord. Agile : on livre souvent et on s’adapte.'],
+    ['Comment choisir', 'Le choix dépend de la stabilité des besoins et du niveau de risque.']
+  ],
+  visual: '<div class="tl"><div class="box"><h4>Années 1970</h4><p>Cascade : chaque étape finie avant la suivante.</p></div>' +
+    '<div class="box"><h4>Années 1980</h4><p>V et spirale : tests en face de chaque phase, risques analysés à chaque tour.</p></div>' +
+    '<div class="box"><h4>Années 1990</h4><p>UP, RAD, XP, Scrum : itérations, prototypes, livraisons fréquentes.</p></div>' +
+    '<div class="box"><h4>Année 2001</h4><p>Manifeste agile : on s’adapte au changement.</p></div></div>' +
+    '<p class="fine" style="margin:.4em 0 1em">Repères approximatifs.</p>' +
+    '<table><tr><th>Critère</th><th>Classiques</th><th>Agiles</th></tr>' +
+    '<tr><td>Approche</td><td>Planifiée, séquentielle, rigide</td><td>Itérative et collaborative</td></tr>' +
+    '<tr><td>Changement</td><td>Difficile en cours de route</td><td>Intégré au développement</td></tr>' +
+    '<tr><td>Documentation</td><td>Exhaustive</td><td>Réduite</td></tr>' +
+    '<tr><td>Client</td><td>Contrat négocié au départ</td><td>Collaboration quotidienne</td></tr>' +
+    '<tr><td>Livraison</td><td>Souvent en fin de projet</td><td>Version fonctionnelle fréquente</td></tr></table>',
+  agence: ['Paiement et contrat à valider à chaque étape : modèle en V.', 'Application mobile qui évolue chaque semaine : Scrum.', 'Plusieurs choix se défendent : l’important est de justifier.'],
+  cards: [
+    ['Cycle de vie d’un logiciel', 'Succession d’étapes de mise en œuvre, de la perception du besoin à la livraison : étude préalable, spécification, analyse, conception, implémentation, test.'],
+    ['DAG', 'Développement d’Application de Gestion : automatiser et contrôler les coûts. Destinataire : la machine. Sémantique pauvre.'],
+    ['SAO', 'Système d’Application Organisationnel : aider à décider. Destinataire : l’humain. Sémantique riche.'],
+    ['SIS', 'Système d’Information Stratégique : le SI donne un avantage concurrentiel et différencie l’offre.'],
+    ['Une méthode, 4 composants', 'Modèles, langages, démarche (travaux ordonnés par étapes), outils et techniques.'],
+    ['Modèle en cascade', 'Séquence linéaire : chaque étape terminée avant la suivante. Critique : inflexible face aux changements.'],
+    ['Modèle en V', 'Chaque phase de développement a sa phase de test correspondante. Si une phase échoue, retour en arrière.'],
+    ['Modèle en spirale', 'Chaque tour : objectifs, analyse des risques, développement, vérification. L’analyse des risques est centrale.'],
+    ['Modèle incrémental', 'Sous-ensembles fonctionnels livrés l’un après l’autre. Le premier composant coûte le plus.'],
+    ['Processus unifié : 3 principes', 'Guidé par les cas d’utilisation, centré sur l’architecture, itératif et incrémental.'],
+    ['4 phases d’UP', 'Inception, élaboration, construction, transition.'],
+    ['2TUP', 'Cycle en Y : branche fonctionnelle, branche technique, puis branche de réalisation.'],
+    ['Manifeste agile', 'Personnes et interactions, produit opérationnel, collaboration avec le client, adaptation au changement.'],
+    ['Product Owner', 'La voix du client : transmet les objectifs à l’équipe et coordonne l’implication des utilisateurs.'],
+    ['Scrum Master', 'Le facilitateur : optimise la capacité de l’équipe et favorise son autonomie. Il ne la commande pas.'],
+    ['Sprint', 'Cycle Scrum de 2 semaines à 1 mois, idéalement 2 semaines, qui livre un incrément.'],
+    ['User story', 'Fonctionnalité décrite du point de vue de l’utilisateur.'],
+    ['Mêlée', 'Réunion d’avancement quotidienne pendant le sprint : où en est-on, qu’est-ce qui bloque ?'],
+    ['RAD', 'Rapid Application Development : prototypage direct avec de fausses données, et développement par l’utilisateur final.'],
+    ['XP', 'Méthode agile pour petites équipes : TDD, pair programming, intégration continue, itérations de 1 à 2 semaines.']
+  ],
+  activities: [
+    { type: 'tree', title: 'Choisir une méthode en trois questions', intro: 'Répondez pour un projet de votre choix, ou celui de l’agence.',
+      start: 'a', nodes: {
+        a: { q: 'Les besoins changent-ils souvent ?', y: { r: ['Agile · Scrum', 'Le changement est intégré au développement : livraisons fréquentes, collaboration quotidienne avec le client.'] }, n: 'b' },
+        b: { q: 'Le risque d’échec est-il élevé ?', y: { r: ['Modèle en spirale', 'L’analyse des risques est au centre de chaque tour. Adapté aux systèmes innovants de grande taille.'] }, n: 'c' },
+        c: { q: 'Chaque étape doit-elle être testée ?', y: { r: ['Modèle en V', 'Chaque phase a son test. Exigences figées, tests critiques.'] }, n: { r: ['Cascade ou incrémental', 'Besoins stables, peu de risque, livraisons progressives si on choisit l’incrémental.'] } }
+      },
+      note: 'Un guide, pas une règle : plusieurs réponses se défendent.' },
+    { type: 'sort', title: 'À quelle famille appartient cette méthode ?', intro: 'Classez chaque méthode dans sa famille.',
+      buckets: [['Classiques', 'SDLC'], ['Processus unifiés', 'UP'], ['Agiles', '']],
+      items: [
+        ['Modèle en cascade', 0, 'Séquentiel : famille classique.'], ['Modèle en spirale', 0, 'Famille classique.'], ['Modèle en V', 0, 'Famille classique.'], ['Modèle incrémental', 0, 'Famille classique.'],
+        ['Rational Unified Process (RUP)', 1, 'Le processus unifié avec des guides détaillés.'], ['Two Tracks UP (2TUP)', 1, 'Cycle en Y, de la famille des processus unifiés.'],
+        ['Scrum', 2, 'Méthode agile.'], ['Kanban', 2, 'Méthode agile.'], ['RAD', 2, 'Prototypage rapide : famille agile.']
+      ] },
+    { type: 'order', title: 'Les 4 phases du processus unifié', intro: 'Cliquez les phases dans l’ordre.',
+      steps: [['Inception', 'Démarrer : cadrer le projet et son périmètre.'], ['Élaboration', 'Préparer : plan solide, architecture, risques principaux.'], ['Construction', 'Fabriquer : développer le produit, itération après itération.'], ['Transition', 'Livrer : mettre le produit entre les mains des utilisateurs.']] },
+    { type: 'order', title: 'Le cycle d’un sprint Scrum', intro: 'Cliquez les étapes dans l’ordre.',
+      steps: [['Backlog du produit', 'Besoins du client, classés par priorité.'], ['Backlog du sprint', 'Éléments retenus pour ce sprint.'], ['Sprint', 'Développement, avec une mêlée chaque jour.'], ['Incrément', 'Ajouts au produit, présentés en fin de sprint.']] }
+  ],
+  quiz: [
+    { q: 'Un SI riche en sémantique pour aider les humains à décider : quelle approche ?', o: ['SAO : application organisationnelle', 'DAG : application de gestion', 'SIS : information stratégique', 'Aucune des trois'], a: 0, e: 'Le SAO représente et mesure les activités de l’organisation, avec des informations riches destinées à l’humain.' },
+    { q: 'Quel modèle place l’analyse des risques au centre de chaque tour ?', o: ['Cascade', 'Incrémental', 'Spirale', 'Modèle en V'], a: 2, e: 'Chaque tour commence par les objectifs, puis l’analyse des risques, avant de développer et de vérifier.' },
+    { q: 'Quelles sont les 4 phases du processus unifié, dans l’ordre ?', o: ['Analyse, conception, codage, test', 'Spécification, développement, recette, maintenance', 'Inception, élaboration, construction, transition', 'Planification, itération, évaluation, livraison'], a: 2, e: 'Chaque phase compte plusieurs itérations. « Planification, itération, évaluation, livraison » décrit plutôt le contenu d’une itération.' },
+    { q: 'Qui aide l’équipe à travailler de façon autonome tout en s’améliorant ?', o: ['Le client', 'Le Product Owner', 'Le chef de projet', 'Le Scrum Master'], a: 3, e: 'Le Scrum Master optimise la capacité de l’équipe. Le Product Owner porte la voix du client.' },
+    { q: 'Un dispositif médical : exigences figées, chaque étape doit être validée par des tests. Quelle méthode ?', o: ['Modèle en V', 'Scrum', 'RAD', 'Modèle en spirale'], a: 0, e: 'Dans le modèle en V, chaque phase de développement a sa phase de test correspondante.' },
+    { q: 'Un sprint Scrum dure idéalement…', o: ['1 jour', '2 semaines', '6 mois', 'Toute la durée du projet'], a: 1, e: 'Un sprint dure de 2 semaines à 1 mois, idéalement 2 semaines, et livre un incrément.' },
+    { q: 'Quel est le principe du processus unifié « centré sur l’architecture » ?', o: ['Livrer en une seule fois à la fin', 'Définir l’architecture type du système dès que possible', 'Supprimer toute documentation', 'Laisser les utilisateurs coder'], a: 1, e: 'Les 3 principes d’UP : guidé par les cas d’utilisation, centré sur l’architecture, itératif et incrémental.' },
+    { q: 'Que représente l’expression « En tant que client, je veux réserver une voiture en ligne afin de gagner du temps » ?', o: ['C’est une user story', 'C’est un diagramme de classes', 'C’est un backlog de sprint', 'C’est une mêlée'], a: 0, e: 'Une user story décrit une fonctionnalité du point de vue de l’utilisateur.' }
+  ],
+  td: { title: 'TD · Quelle méthode pour chaque projet ?', enonce: 'Pour chaque projet, choisissez une méthode avec les critères du cours : stabilité des besoins et niveau de risque.', minutes: 8,
+    steps: [
+      ['Dispositif médical : exigences figées, chaque étape doit être validée par des tests.', 'Modèle en V : chaque phase a son test.'],
+      ['Application mobile d’une startup : les besoins changent chaque semaine.', 'Agile, par exemple Scrum : le changement est intégré au développement.'],
+      ['Refonte du SI d’une grande banque : projet innovant, risque d’échec élevé.', 'Modèle en spirale : l’analyse des risques est au centre de chaque tour.'],
+      ['Application mobile de l’agence de location. Justifiez.', 'Plusieurs choix se défendent. Si l’application évolue chaque semaine : Scrum. Si paiement et contrat doivent être validés à chaque étape : modèle en V.'],
+      ['Écrivez une user story pour l’agence.', 'Par exemple : « En tant que client, je veux réserver une voiture en ligne afin de gagner du temps. »']
+    ] }
+});
+
+PARTS.push({
+  id: 'p4', tab: 'Étapes', num: '4',
+  title: 'Les activités de développement logiciel',
+  intro: 'Six étapes, du diagnostic au test. À chaque étape, un modèle. L’analyse dit quoi, sans technologie. La conception dit comment, avec une technologie.',
+  hook: 'Question : à quelle étape choisit-on d’utiliser MySQL pour la base de l’agence ?',
+  recap: [
+    ['Six étapes', 'Étude préalable, besoins, analyse, conception, implémentation, test.'],
+    ['Des modèles à chaque étape', 'Surtout UML. Les données vont du MCD au MLD.'],
+    ['Quoi, puis comment', 'L’analyse dit quoi, sans technologie. La conception dit comment, avec une technologie.']
+  ],
+  visual: '<div class="steps6">' +
+    '<div class="box"><h4>Étude préalable</h4><p>Diagnostic de l’existant, cahier des charges.</p></div>' +
+    '<div class="box"><h4>Spécification des besoins</h4><p>Fonctionnels, non fonctionnels, techniques.</p></div>' +
+    '<div class="box"><h4>Analyse</h4><p>Vision unifiée des cas d’utilisation, premières classes.</p></div>' +
+    '<div class="box"><h4>Conception</h4><p>Architecture, base de données, vues UML, maquettes.</p></div>' +
+    '<div class="box"><h4>Implémentation</h4><p>Produire les composants logiciels.</p></div>' +
+    '<div class="box"><h4>Test</h4><p>Vérifier que le logiciel répond aux besoins.</p></div></div>',
+  agence: ['Étude préalable : cahier des charges.', 'Besoins : « Réserver une voiture ».', 'Analyse : classes Client, Réservation, Voiture.', 'Conception : base MySQL, écrans web.'],
+  cards: [
+    ['Étude préalable', 'Diagnostic de l’existant, critiques et besoins, opportunité et faisabilité, puis rédaction du cahier des charges (son livrable).'],
+    ['Cahier des charges', 'Ce que le client attend, par écrit : livrable de l’étude préalable.'],
+    ['Besoins fonctionnels', 'Quoi faire : ce que fait le système, indépendant de tout matériel ou logiciel.'],
+    ['Besoins non fonctionnels', 'Qualités attendues : performance, sécurité, ergonomie, maintenance et évolution.'],
+    ['Besoins techniques', 'Choix techniques : structures de données, unités de traitement, matériels, calendrier et budgets.'],
+    ['Analyse', 'Unifie les cas d’utilisation et fait apparaître un premier jeu complet de classes. Langage du développeur, vue interne.'],
+    ['Conception architecturale', 'Choix du modèle architectural : architecture physique et architecture logique (motif d’architecture logicielle).'],
+    ['Conception détaillée', 'Base de données (MCD puis MLD), conception logicielle (vue statique et dynamique), conception graphique (maquettage).'],
+    ['Vue statique UML', 'De quoi le système est fait : classes, objets, composants, déploiement, paquetage…'],
+    ['Vue dynamique UML', 'Comment le système se comporte : états-transitions, activité, séquence, communication…'],
+    ['MCD', 'Modèle conceptuel des données : entités, associations, attributs, cardinalités. Indépendant du SGBD.'],
+    ['MLD', 'Modèle logique : le MCD traduit en tables, colonnes, clés primaires et étrangères, pour un SGBD précis.'],
+    ['Maquettage', 'Conception visuelle des interfaces. Outils : Balsamiq, Figma, Adobe XD, Sketch.'],
+    ['Merise', 'Méthode d’analyse et de conception de SI. Paradigme relationnel. Données et traitements.'],
+    ['UML', 'Langage de représentation orienté objet, de portée internationale : diagrammes statiques et dynamiques.']
+  ],
+  activities: [
+    { type: 'order', title: 'Les 6 étapes de création d’un logiciel', intro: 'Cliquez les étapes dans l’ordre. Chaque étape répond à une question.',
+      steps: [['Étude préalable', 'Faut-il le faire, et est-ce faisable ?'], ['Spécification des besoins', 'Que veut le client ?'], ['Analyse', 'Quelles sont les grandes pièces du système ?'], ['Conception', 'Comment le construire, avec quelle technologie ?'], ['Implémentation', 'Comment l’écrire en code ?'], ['Test', 'Est-ce que ça marche comme prévu ?']] },
+    { type: 'sort', title: 'Quel type de besoin ?', intro: 'Fonctionnel (quoi), non fonctionnel (qualité) ou technique (choix techniques) ?',
+      buckets: [['Fonctionnel', 'ce que fait le système'], ['Non fonctionnel', 'qualité attendue'], ['Technique', 'choix techniques']],
+      items: [
+        ['Le client réserve une voiture en ligne', 0, 'Ce que fait le système : fonctionnel.'],
+        ['Le système répond en moins de 2 secondes', 1, 'Exigence de performance : non fonctionnelle.'],
+        ['Choisir MySQL comme SGBD', 2, 'Choix technique.'],
+        ['Le client consulte la liste des véhicules', 0, 'Ce que fait le système : fonctionnel.'],
+        ['Les données de paiement sont protégées', 1, 'Sécurité : non fonctionnelle.'],
+        ['Respecter le calendrier et le budget', 2, 'Calendrier et budgets figurent parmi les besoins techniques.'],
+        ['L’interface est facile à utiliser', 1, 'Ergonomie et convivialité : non fonctionnelle.'],
+        ['Choix des matériels', 2, 'Besoin technique.']
+      ] },
+    { type: 'sort', title: 'Analyse ou conception ?', intro: 'À quel modèle correspond chaque caractéristique ?',
+      buckets: [['Modèle d’analyse', 'conceptuel'], ['Modèle de conception', 'physique']],
+      items: [
+        ['Modèle conceptuel', 0, 'L’analyse est conceptuelle.'], ['Modèle physique', 1, 'La conception est physique.'],
+        ['Autorise plusieurs conceptions', 0, 'Une analyse, plusieurs conceptions possibles.'], ['Spécifique à une implantation', 1, 'La conception dépend de la technologie choisie.'],
+        ['Peu de couches', 0, 'L’analyse a peu de couches.'], ['Plusieurs couches', 1, 'La conception en a plusieurs.'],
+        ['Stéréotypes qui dépendent de l’environnement cible', 1, 'Dans l’analyse, il y a peu de stéréotypes.']
+      ] },
+    { type: 'sort', title: 'Merise ou UML ?', intro: 'Quelle caractéristique va avec quel outil ?',
+      buckets: [['Merise', 'méthode'], ['UML', 'langage']],
+      items: [
+        ['Méthode d’analyse et de conception de SI', 0, 'Merise est une méthode.'], ['Langage de représentation d’un SI', 1, 'UML est un langage.'],
+        ['Paradigme relationnel', 0, 'Merise : données et traitements, bases relationnelles.'], ['Notation orientée objet', 1, 'UML : paradigme objet.'],
+        ['Portée internationale', 1, 'Merise est franco-français.'], ['Schéma directeur, étude préalable, étude détaillée, réalisation', 0, 'Contenu de la démarche Merise.'],
+        ['Diagrammes statiques et dynamiques', 1, 'UML fournit les diagrammes.']
+      ] }
+  ],
+  quiz: [
+    { q: 'Dans quelle étape rédige-t-on le cahier des charges ?', o: ['Analyse', 'Conception', 'Étude préalable', 'Implémentation'], a: 2, e: 'On y diagnostique l’existant, on évalue la faisabilité, puis on rédige le cahier des charges.' },
+    { q: 'Laquelle de ces exigences est non fonctionnelle ?', o: ['Le système répond en moins de 2 secondes', 'Le client réserve une voiture en ligne', 'Le client consulte la liste des véhicules', 'Le système enregistre la demande'], a: 0, e: 'Une exigence de performance porte sur la qualité du service, pas sur une fonction.' },
+    { q: 'Quelle étape répond à : comment le construire, avec quelle technologie ?', o: ['Conception', 'Analyse', 'Test', 'Étude préalable'], a: 0, e: 'L’analyse dit quoi, sans technologie. La conception dit comment, pour une technologie précise.' },
+    { q: 'À quelle étape choisit-on d’utiliser MySQL pour la base de l’agence ?', o: ['Étude préalable', 'Analyse', 'Conception', 'Spécification des besoins'], a: 2, e: 'Le choix d’un SGBD est un choix technologique : il se fait en conception.' },
+    { q: 'Quel diagramme est dans la vue statique d’UML ?', o: ['Diagramme de séquence', 'Diagramme de classes', 'Diagramme d’activités', 'Diagramme d’états-transitions'], a: 1, e: 'Vue statique : classes, objets, composants, déploiement, paquetage. Les autres sont dynamiques.' },
+    { q: 'Le modèle d’analyse est…', o: ['Un modèle physique', 'Spécifique à une implantation', 'Un modèle conceptuel qui autorise plusieurs conceptions', 'Un modèle à plusieurs couches'], a: 2, e: 'Une analyse, plusieurs conceptions possibles : on passe du conceptuel au physique.' },
+    { q: 'Quel est le livrable de l’étude préalable ?', o: ['Le code source', 'Le cahier des charges', 'Le modèle des tests', 'La base de données'], a: 1, e: 'On y diagnostique l’existant, on évalue la faisabilité, puis on rédige le cahier des charges.' },
+    { q: 'Quel modèle de données est indépendant du SGBD ?', o: ['Le MLD', 'Le MCD', 'Les deux', 'Aucun'], a: 1, e: 'Le MCD est indépendant du SGBD. Le MLD est spécifique à un SGBD.' }
+  ],
+  td: { title: 'TD · De l’étude préalable à la conception, pour l’agence', enonce: 'Reprenez l’agence de location et parcourez les étapes de création du logiciel de réservation.', minutes: 10,
+    steps: [
+      ['Donnez deux besoins fonctionnels et un besoin non fonctionnel.', 'Fonctionnels : réserver une voiture, payer en ligne. Non fonctionnel : par exemple, réponse en moins de 2 secondes, ou sécurité du paiement.'],
+      ['Quelles classes apparaissent à l’analyse ?', 'Client, Réservation, Voiture (premier jeu de classes).'],
+      ['Quel diagramme montre l’ordre des messages entre le client, le système et la banque ?', 'Le diagramme de séquence (vue dynamique).'],
+      ['Quel diagramme montre les états d’une réservation (demandée, confirmée, annulée, terminée) ?', 'Le diagramme d’états-transitions (vue dynamique).'],
+      ['Où choisit-on MySQL, et quel modèle de données produit-on avant ?', 'En conception. Avant, on produit le MCD (conceptuel), puis le MLD (tables, clés) pour le SGBD choisi.']
+    ] }
+});
+PARTS.push({
+  id: 'annexes', tab: 'Annexes', num: 'A',
+  title: 'UML, MCD et MLD',
+  intro: 'Les modèles dessinés pendant les étapes : cas d’utilisation et diagrammes UML, puis les données du MCD au MLD.',
+  hook: 'Question : une association N:M entre adhérents et livres. Que devient-elle dans les tables ?',
+  recap: [
+    ['UML', 'Statique : classes, objets, composants, déploiement. Dynamique : séquence, communication, états, activités.'],
+    ['MCD', 'Entités, associations, propriétés, identifiants. Cardinalité = couple (minimum, maximum) avec minimum 0 ou 1, maximum 1 ou n.'],
+    ['MLD', 'Une table par entité. 1:N : la clé du côté 1 va dans la table du côté N. N:M : une table de jonction.']
+  ],
+  visual: '<table><tr><th>Association au MCD</th><th>Au MLD</th></tr>' +
+    '<tr><td>Entité</td><td>Une table ; propriétés = colonnes ; identifiant = clé primaire</td></tr>' +
+    '<tr><td>1:1</td><td>La clé primaire d’une des deux tables devient clé étrangère dans l’autre</td></tr>' +
+    '<tr><td>1:N</td><td>La clé primaire du côté 1 devient clé étrangère dans la table du côté N</td></tr>' +
+    '<tr><td>N:M</td><td>Une table de jonction reprend les clés primaires des deux entités, comme clés étrangères</td></tr></table>' +
+    '<div style="margin-top:1em"><span class="mono">MCD : PERSONNE (0,n) — PROPRIETAIRE — (1,1) VOITURE</span><br>' +
+    '<div class="tbl"><div>PERSONNE</div><div><span class="pk">N°insee</span> (PK)</div><div>Nom</div><div>Adresse</div></div>' +
+    '<div class="tbl"><div>VOITURE</div><div><span class="pk">N°immatriculation</span> (PK)</div><div>Type</div><div>N°insee (FK)</div></div>' +
+    '<p class="fine">L’association PROPRIETAIRE disparaît : elle devient la clé étrangère N°insee dans VOITURE.</p></div>',
+  agence: ['En UML, le nombre de cardinalité se lit à l’autre bout du trait : c’est l’inverse du MCD.', 'Un client a 0 à n réservations ; une réservation concerne un client et une voiture.'],
+  cards: [
+    ['Acteur', 'Personne ou système externe qui interagit avec le système. Principal ou secondaire.'],
+    ['Cas d’utilisation', 'Un objectif du système, motivé par le besoin d’un acteur. Puis des scénarios : nominal, alternatifs, d’exception.'],
+    ['Diagramme de classes', 'La structure interne du système : une description purement statique.'],
+    ['Diagramme de séquence', 'Une collaboration d’objets qui échangent des messages, dans l’ordre, de haut en bas.'],
+    ['Diagramme d’états', 'Les états d’un objet et les transitions (événements) qui le font changer.'],
+    ['Diagramme d’activités', 'L’enchaînement des activités : point de départ, décisions, point d’arrivée.'],
+    ['Entité · occurrence', 'Entité : un type de chose (CLIENT). Occurrence : un exemple concret (Dupond).'],
+    ['Association', 'Lien sémantique entre entités. Peut porter des propriétés (ex. date d’emprunt).'],
+    ['Identifiant', 'Propriété qui identifie de façon unique chaque occurrence. Il est souligné.'],
+    ['Cardinalité (0,1) (1,1) (1,n) (0,n)', 'Minimum : 0 facultatif, 1 obligatoire. Maximum : 1 un seul, n plusieurs.'],
+    ['Règles de qualité d’une entité', 'Un identifiant. Propriétés mono-valuées (1FN). Dépendance à l’identifiant, et à lui seul (2FN, 3FN).'],
+    ['Clé primaire (PK)', 'Identifie chaque ligne d’une table.'],
+    ['Clé étrangère (FK)', 'Référence la clé primaire d’une autre table.'],
+    ['Table de jonction', 'Pour une association N:M : sa clé primaire est formée des deux clés étrangères.'],
+    ['Règle d’or du 1:N', 'Le côté « plusieurs » porte le numéro du côté « un ».']
+  ],
+  activities: [
+    { type: 'sort', title: 'Quelle cardinalité ?', intro: 'Lisez la phrase et trouvez le couple (minimum, maximum).',
+      buckets: [['0,1', 'au plus 1'], ['1,1', '1 et 1 seul'], ['1,n', 'au moins 1'], ['0,n', 'quelconque']],
+      items: [
+        ['Une voiture a un et un seul propriétaire', 1, 'Minimum 1 : obligatoire. Maximum 1 : un seul.'],
+        ['Une personne possède un nombre quelconque de voitures, éventuellement aucune', 3, 'Minimum 0 : facultatif. Maximum n : plusieurs.'],
+        ['Un adhérent peut ne jamais emprunter, ou emprunter plusieurs livres', 3, 'Minimum 0, maximum n.'],
+        ['Une réservation concerne exactement une voiture', 1, 'Obligatoire et unique.'],
+        ['Une commande contient au moins un article', 2, 'Minimum 1, maximum n.'],
+        ['Un employé a au plus un badge', 0, 'Minimum 0 : facultatif. Maximum 1.']
+      ] },
+    { type: 'sort', title: 'Du MCD au MLD', intro: 'Que devient l’association dans les tables ?',
+      buckets: [['Clé étrangère', 'dans une table existante'], ['Table de jonction', 'nouvelle table']],
+      items: [
+        ['Une personne possède plusieurs voitures, une voiture a un seul propriétaire (1:N)', 0, '1:N : la clé du côté 1 devient clé étrangère dans la table du côté N.'],
+        ['Un adhérent emprunte plusieurs livres, un livre est emprunté par plusieurs adhérents (N:M)', 1, 'N:M : table de jonction avec les deux clés primaires.'],
+        ['Un étudiant a une carte étudiant, et une carte appartient à un seul étudiant (1:1)', 0, '1:1 : une clé primaire devient clé étrangère dans l’autre table.'],
+        ['Un étudiant s’inscrit à plusieurs cours, un cours a plusieurs étudiants (N:M)', 1, 'N:M : table de jonction.'],
+        ['Un client passe plusieurs réservations, une réservation a un seul client (1:N)', 0, '1:N : la clé du client va dans la table Réservation.'],
+        ['Un film est joué dans plusieurs salles, une salle projette plusieurs films (N:M)', 1, 'N:M : table de jonction.']
+      ] },
+    { type: 'sort', title: 'Statique ou dynamique ?', intro: 'À quelle vue UML appartient chaque diagramme ?',
+      buckets: [['Statique', 'de quoi le système est fait'], ['Dynamique', 'comment il se comporte']],
+      items: [
+        ['Diagramme de classes', 0, 'Structure interne : statique.'], ['Diagramme de séquence', 1, 'Messages échangés : dynamique.'],
+        ['Diagramme d’objets', 0, 'Statique.'], ['Diagramme d’états', 1, 'Dynamique.'],
+        ['Diagramme de composants', 0, 'Découpage en unités logicielles : statique.'], ['Diagramme d’activités', 1, 'Dynamique.'],
+        ['Diagramme de déploiement', 0, 'Statique.'], ['Diagramme de communication', 1, 'Dynamique.']
+      ] }
+  ],
+  quiz: [
+    { q: 'Quel diagramme montre l’ordre des messages entre le client, le système et la banque ?', o: ['Diagramme de classes', 'Diagramme de cas d’utilisation', 'Diagramme de déploiement', 'Diagramme de séquence'], a: 3, e: 'Il montre qui envoie quel message à qui, dans l’ordre, de haut en bas.' },
+    { q: 'Une voiture a un et un seul propriétaire : quelle cardinalité côté VOITURE ?', o: ['0,1', '1,1', '0,n', '1,n'], a: 1, e: 'Minimum 1 : toute voiture a un propriétaire. Maximum 1 : un seul.' },
+    { q: 'Dans la table VOITURE, la colonne N°insee (le propriétaire) est une…', o: ['Clé primaire', 'Clé étrangère', 'Entité', 'Cardinalité'], a: 1, e: 'Elle contient la clé primaire de PERSONNE : c’est ainsi que VOITURE renvoie à son propriétaire.' },
+    { q: 'Dans le MCD, « Dupond » est… de la classe d’entités CLIENT.', o: ['Une propriété', 'Une occurrence', 'Un identifiant', 'Une association'], a: 1, e: 'La classe d’entités regroupe les occurrences : Dupond est un exemple concret de CLIENT.' },
+    { q: 'Que devient une association N:M au passage du MCD au MLD ?', o: ['Une clé étrangère dans une des tables', 'Rien, elle disparaît', 'Une table de jonction', 'Une nouvelle entité sans clé'], a: 2, e: 'La table de jonction reprend les clés primaires des deux entités, comme clés étrangères.' },
+    { q: 'Dans une relation 1:N, où place-t-on la clé étrangère ?', o: ['Dans la table du côté 1', 'Dans la table du côté N', 'Dans les deux tables', 'Dans une table de jonction'], a: 1, e: 'Règle d’or du 1:N : le côté « plusieurs » porte le numéro du côté « un ».' },
+    { q: 'Que représente un cas d’utilisation ?', o: ['Une table de la base', 'Un objectif du système, motivé par le besoin d’un acteur', 'Un serveur du déploiement', 'Une classe du modèle'], a: 1, e: 'C’est un but du système, motivé par le besoin d’un acteur.' },
+    { q: 'Une association N:M comme EMPRUNTER peut-elle porter des propriétés ?', o: ['Oui, par exemple la date d’emprunt et la date de retour', 'Non, jamais', 'Seulement une clé primaire', 'Seulement en UML'], a: 0, e: 'Une association peut porter des propriétés : ici, les deux dates.' }
+  ],
+  td: { title: 'TD · La bibliothèque universitaire', enonce: 'Des adhérents empruntent des livres. Un adhérent peut emprunter plusieurs livres, et un livre peut être emprunté par plusieurs adhérents, à des dates différentes. On enregistre la date d’emprunt et la date de retour.', minutes: 10,
+    steps: [
+      ['Cas d’utilisation : quels acteurs, quels cas ?', 'Acteurs : Adhérent (principal) et Bibliothécaire, qui enregistre les prêts. Cas : consulter le catalogue, emprunter un livre, retourner un livre. Un cas d’utilisation est un but d’un acteur.'],
+      ['MCD : entités, association, cardinalités, propriétés.', '<b>ADHÉRENT</b> (<span class="pk">N°adhérent</span>, Nom, Adresse) — <b>EMPRUNTER</b> (date d’emprunt, date de retour) — <b>LIVRE</b> (<span class="pk">ISBN</span>, Titre). Cardinalités : 0,n côté ADHÉRENT et 0,n côté LIVRE. Association N:M avec deux propriétés.'],
+      ['MLD : tables, clés primaires et clés étrangères.', '<div class="tbl"><div>ADHERENT</div><div><span class="pk">N°adhérent</span> PK</div><div>Nom</div><div>Adresse</div></div><div class="tbl"><div>LIVRE</div><div><span class="pk">ISBN</span> PK</div><div>Titre</div></div><div class="tbl"><div>EMPRUNT</div><div><span class="pk">N°adhérent</span> PK, FK</div><div><span class="pk">ISBN</span> PK, FK</div><div>Date d’emprunt</div><div>Date de retour</div></div><br>L’association N:M devient une table de jonction : sa clé primaire est formée des deux clés étrangères.']
+    ] }
+});
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var panel = $('#panel');
+  var S = { part: 'p1', sub: 'ess' };
+  var timers = [];
+  var activeQuiz = null;
+  var SUBS = [['ess', 'L’essentiel'], ['cards', 'Cartes'], ['act', 'Activités'], ['quiz', 'Quiz'], ['td', 'TD']];
+  var THEMES = [['auto', null], ['clair', 'light'], ['sombre', 'dark']];
+  var themeIdx = 0;
+
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function getPart(id) { for (var i = 0; i < PARTS.length; i++) if (PARTS[i].id === id) return PARTS[i]; return null; }
+  function partLabel(p) { return p.num === 'A' ? 'Annexes' : 'Partie ' + p.num + ' · ' + p.tab; }
+  function clearTimers() { timers.forEach(clearInterval); timers = []; }
+
+  /* ---------- navigation ---------- */
+  function renderTabs() {
+    var all = PARTS.concat([{ id: 'defi', tab: 'Défi final', num: '★' }]);
+    $('#tabs').innerHTML = all.map(function (p) {
+      return '<button class="tab" role="tab" aria-selected="' + (p.id === S.part) + '" data-id="' + p.id + '"><b>' + p.num + '</b><span>' + p.tab + '</span></button>';
+    }).join('') + '<button class="themebtn" id="themebtn" title="Changer de thème">Thème : ' + THEMES[themeIdx][0] + '</button>';
+    Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) {
+      b.addEventListener('click', function () { go(b.dataset.id); });
+    });
+    $('#themebtn').addEventListener('click', function () {
+      themeIdx = (themeIdx + 1) % THEMES.length;
+      var v = THEMES[themeIdx][1];
+      if (v) document.documentElement.setAttribute('data-theme', v); else document.documentElement.removeAttribute('data-theme');
+      this.textContent = 'Thème : ' + THEMES[themeIdx][0];
+    });
+  }
+  function go(id, sub) {
+    S.part = id; S.sub = sub || (id === 'defi' ? 'defi' : 'ess');
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    render();
+    window.scrollTo(0, 0);
+  }
+  function render() {
+    clearTimers(); activeQuiz = null;
+    renderTabs();
+    if (S.part === 'defi') { renderDefiHero(); $('#subtabs').innerHTML = ''; renderDefi(); return; }
+    var p = getPart(S.part);
+    $('#hero').innerHTML = '<span class="mono">' + (p.num === 'A' ? 'Annexes' : 'Partie ' + p.num) + '</span><h2>' + p.title + '</h2><p>' + p.intro + '</p><div class="hook">' + p.hook + '</div>';
+    var counts = { cards: p.cards.length, act: p.activities.length, quiz: p.quiz.length };
+    $('#subtabs').innerHTML = SUBS.map(function (s) {
+      return '<button class="sub" role="tab" aria-selected="' + (s[0] === S.sub) + '" data-s="' + s[0] + '">' + s[1] + (counts[s[0]] ? ' (' + counts[s[0]] + ')' : '') + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('.sub'), function (b) {
+      b.addEventListener('click', function () { S.sub = b.dataset.s; render(); });
+    });
+    if (S.sub === 'ess') renderEss(p);
+    else if (S.sub === 'cards') renderCards(p);
+    else if (S.sub === 'act') renderActs(p);
+    else if (S.sub === 'quiz') runQuiz(panel, function () { return p.quiz; }, false);
+    else renderTD(p);
+  }
+
+  /* ---------- l'essentiel ---------- */
+  function renderEss(p) {
+    panel.innerHTML =
+      '<div class="points">' + p.recap.map(function (r) {
+        return '<div class="card point"><span class="mono" style="color:var(--signal)">À retenir</span><h3>' + r[0] + '</h3><p>' + r[1] + '</p></div>';
+      }).join('') + '</div>' +
+      '<div class="card visual"><h3>En un coup d’œil</h3>' + p.visual + '</div>' +
+      '<div class="agence"><span class="mono">Dans l’agence de location</span>' + p.agence.map(function (t) { return '<p>' + t + '</p>'; }).join('') + '</div>';
+  }
+
+  /* ---------- cartes ---------- */
+  function renderCards(p) {
+    var cards = p.cards.slice(), allOn = false;
+    function draw() {
+      panel.innerHTML = '<div class="toolbar"><button class="btn" id="fall">' + (allOn ? 'Tout masquer' : 'Tout retourner') + '</button><button class="btn" id="fshuf">Mélanger</button><span class="fine">Cliquez une carte pour la retourner. Dites la définition à voix haute avant.</span></div>' +
+        '<div class="flips">' + cards.map(function (c) {
+          return '<button class="flip' + (allOn ? ' on' : '') + '" aria-pressed="' + allOn + '"><span class="in"><span class="face f"><span class="mono">Terme</span><strong>' + c[0] + '</strong></span><span class="face k">' + c[1] + '</span></span></button>';
+        }).join('') + '</div>';
+      Array.prototype.forEach.call(panel.querySelectorAll('.flip'), function (b) {
+        b.addEventListener('click', function () { var on = b.classList.toggle('on'); b.setAttribute('aria-pressed', on); });
+      });
+      $('#fall').addEventListener('click', function () { allOn = !allOn; draw(); });
+      $('#fshuf').addEventListener('click', function () { cards = shuffle(cards); allOn = false; draw(); });
+    }
+    draw();
+  }
+
+  /* ---------- activités ---------- */
+  function renderActs(p) {
+    var cur = 0;
+    function draw() {
+      var sel = p.activities.length > 1 ? '<div class="toolbar">' + p.activities.map(function (a, i) {
+        return '<button class="btn' + (i === cur ? ' primary' : '') + '" data-i="' + i + '">' + a.title + '</button>';
+      }).join('') + '</div>' : '';
+      panel.innerHTML = sel + '<div><h3 style="font-size:1.4em;margin-bottom:.2em">' + p.activities[cur].title + '</h3><p class="lead">' + (p.activities[cur].intro || '') + '</p></div><div id="actHost"></div>';
+      Array.prototype.forEach.call(panel.querySelectorAll('.toolbar .btn'), function (b) {
+        b.addEventListener('click', function () { cur = +b.dataset.i; draw(); });
+      });
+      var a = p.activities[cur], host = $('#actHost');
+      if (a.type === 'sort') sortAct(host, a); else if (a.type === 'order') orderAct(host, a); else treeAct(host, a);
+    }
+    draw();
+  }
+
+  function sortAct(host, a) {
+    var items = shuffle(a.items), i = 0, first = 0, tried = false;
+    function draw() {
+      if (i >= items.length) {
+        host.innerHTML = '<div class="card sortcard"><span class="mono">Terminé</span><div class="score">' + first + ' / ' + items.length + '</div><p class="lead">du premier coup</p><div class="toolbar" style="justify-content:center;margin-top:.6em"><button class="btn primary" id="again">Rejouer</button></div></div>';
+        $('#again').addEventListener('click', function () { items = shuffle(a.items); i = 0; first = 0; draw(); });
+        return;
+      }
+      var it = items[i]; tried = false;
+      host.innerHTML = '<div class="card sortcard"><div class="qhead"><span class="mono">' + (i + 1) + ' / ' + items.length + '</span><div class="bar"><i style="width:' + (i / items.length * 100) + '%"></i></div></div>' +
+        '<div class="sortitem">' + it[0] + '</div><div class="buckets">' + a.buckets.map(function (b, k) {
+          return '<button class="bucket" data-k="' + k + '">' + b[0] + (b[1] ? '<small>' + b[1] + '</small>' : '') + '</button>';
+        }).join('') + '</div><div class="fb" hidden></div><div class="toolbar" style="justify-content:center;margin-top:.8em"><button class="btn primary" id="nx" hidden>' + (i + 1 === items.length ? 'Voir le résultat' : 'Suivant') + '</button></div></div>';
+      var fb = host.querySelector('.fb'), nx = $('#nx');
+      Array.prototype.forEach.call(host.querySelectorAll('.bucket'), function (b) {
+        b.addEventListener('click', function () {
+          var k = +b.dataset.k;
+          fb.hidden = false;
+          if (k === it[1]) {
+            if (!tried) first++;
+            Array.prototype.forEach.call(host.querySelectorAll('.bucket'), function (x) { x.disabled = true; });
+            b.classList.add('good'); fb.className = 'fb good';
+            fb.innerHTML = '<strong>Exact</strong>' + it[2];
+            nx.hidden = false; nx.focus();
+          } else {
+            tried = true; b.disabled = true; b.classList.add('bad', 'shake');
+            fb.className = 'fb bad'; fb.innerHTML = '<strong>Pas tout à fait</strong>Essayez un autre choix.';
+          }
+        });
+      });
+      nx.addEventListener('click', function () { i++; draw(); });
+    }
+    draw();
+  }
+
+  function orderAct(host, a) {
+    var n = a.steps.length, pool, next, errs;
+    function draw() {
+      pool = shuffle(a.steps.map(function (s, k) { return k; })); next = 0; errs = 0;
+      host.innerHTML = '<div class="card"><div class="seq">' + a.steps.map(function () { return '<div class="slot"></div>'; }).join('') + '</div>' +
+        '<div class="pool">' + pool.map(function (k) { return '<button class="chip" data-k="' + k + '">' + a.steps[k][0] + '</button>'; }).join('') + '</div>' +
+        '<div class="fb" hidden></div><div class="toolbar" style="margin-top:.8em"><button class="btn" id="again" hidden>Rejouer</button></div></div>';
+      var slots = host.querySelectorAll('.slot'), fb = host.querySelector('.fb');
+      Array.prototype.forEach.call(host.querySelectorAll('.chip'), function (c) {
+        c.addEventListener('click', function () {
+          var k = +c.dataset.k;
+          if (k === next) {
+            slots[next].classList.add('fill');
+            slots[next].innerHTML = '<span><b>' + a.steps[k][0] + '</b> <span class="fine">' + a.steps[k][1] + '</span></span>';
+            c.disabled = true; next++; fb.hidden = true;
+            if (next === n) {
+              fb.hidden = false; fb.className = 'fb good';
+              fb.innerHTML = '<strong>Séquence complète</strong>' + (errs ? errs + ' erreur' + (errs > 1 ? 's' : '') + ' en chemin.' : 'Sans aucune erreur.');
+              $('#again').hidden = false;
+            }
+          } else {
+            errs++; c.classList.add('shake');
+            setTimeout(function () { c.classList.remove('shake'); }, 400);
+            fb.hidden = false; fb.className = 'fb bad'; fb.innerHTML = '<strong>Ce n’est pas la suivante</strong>Quelle étape vient après « ' + (next ? a.steps[next - 1][0] : 'le départ') + ' » ?';
+          }
+        });
+      });
+      $('#again').addEventListener('click', draw);
+    }
+    draw();
+  }
+
+  function treeAct(host, a) {
+    var hist, answers, result;
+    function reset() { hist = [a.start]; answers = []; result = null; }
+    function draw() {
+      var node = a.nodes[hist[hist.length - 1]];
+      var trail = answers.map(function (v, k) { return '<span>' + a.nodes[hist[k]].q + ' → ' + (v === 'y' ? 'Oui' : 'Non') + '</span>'; }).join('');
+      var body;
+      if (result) {
+        body = '<div class="result"><span class="mono">Méthode suggérée</span><h3>' + result[0] + '</h3><p>' + result[1] + '</p></div><p class="fine" style="margin-top:.6em">' + (a.note || '') + '</p>' +
+          '<div class="toolbar" style="margin-top:.6em"><button class="btn" data-v="back">Retour</button><button class="btn primary" data-v="reset">Recommencer</button></div>';
+      } else {
+        body = '<div class="qq">' + node.q + '</div><div class="toolbar"><button class="btn primary" data-v="y">Oui</button><button class="btn primary" data-v="n">Non</button>' + (answers.length ? '<button class="btn" data-v="back">Retour</button>' : '') + '</div>';
+      }
+      host.innerHTML = '<div class="card tree"><div class="trail">' + trail + '</div>' + body + '</div>';
+      Array.prototype.forEach.call(host.querySelectorAll('[data-v]'), function (b) {
+        b.addEventListener('click', function () {
+          var v = b.dataset.v;
+          if (v === 'reset') reset();
+          else if (v === 'back') { if (result) { result = null; answers.pop(); } else { hist.pop(); answers.pop(); } }
+          else { var nx = node[v]; answers.push(v); if (typeof nx === 'string') hist.push(nx); else result = nx.r; }
+          draw();
+        });
+      });
+    }
+    reset(); draw();
+  }
+
+  /* ---------- quiz ---------- */
+  function runQuiz(host, qsFn, firstShuffle) {
+    var list, i, score, state, wrong, byPart;
+    function start(shuf) {
+      var qs = qsFn().map(function (q) {
+        var opts = q.o.map(function (t, k) { return { t: t, ok: k === q.a }; });
+        return { q: q.q, e: q.e, part: q.part, opts: shuf ? shuffle(opts) : opts };
+      });
+      list = shuf ? shuffle(qs) : qs; i = 0; score = 0; wrong = []; byPart = {};
+      draw();
+    }
+    function draw() {
+      if (i >= list.length) return finish();
+      var q = list[i]; state = 'ask';
+      host.innerHTML = '<div class="card"><div class="qhead"><span class="mono">Question ' + (i + 1) + ' / ' + list.length + '</span><div class="bar"><i style="width:' + (i / list.length * 100) + '%"></i></div><span class="mono">Score ' + score + '</span></div>' +
+        '<div class="q">' + q.q + '</div><div class="opts">' + q.opts.map(function (o, k) {
+          return '<button class="opt" data-k="' + k + '"><span class="l">' + 'ABCD'.charAt(k) + '</span><span>' + o.t + '</span></button>';
+        }).join('') + '</div><div class="fb" hidden></div><div class="toolbar" style="margin-top:.8em"><button class="btn primary" id="nx" hidden>' + (i + 1 === list.length ? 'Voir le résultat' : 'Question suivante') + '</button></div></div>';
+      Array.prototype.forEach.call(host.querySelectorAll('.opt'), function (b) {
+        b.addEventListener('click', function () { choose(+b.dataset.k); });
+      });
+      $('#nx').addEventListener('click', function () { i++; draw(); });
+      activeQuiz = { choose: choose, state: function () { return state; }, next: function () { var n = $('#nx'); if (n && !n.hidden) n.click(); } };
+    }
+    function choose(k) {
+      if (state !== 'ask') return;
+      var q = list[i], ok = q.opts[k] && q.opts[k].ok;
+      if (!q.opts[k]) return;
+      state = 'fb';
+      var bs = host.querySelectorAll('.opt'), fb = host.querySelector('.fb');
+      Array.prototype.forEach.call(bs, function (b, j) { b.disabled = true; if (q.opts[j].ok) b.classList.add('good'); else if (j === k) b.classList.add('bad'); });
+      if (q.part) { byPart[q.part] = byPart[q.part] || { ok: 0, n: 0 }; byPart[q.part].n++; if (ok) byPart[q.part].ok++; }
+      if (ok) score++; else wrong.push(q);
+      fb.hidden = false; fb.className = 'fb ' + (ok ? 'good' : 'bad');
+      fb.innerHTML = '<strong>' + (ok ? 'Bonne réponse' : 'Pas tout à fait') + '</strong>' + q.e;
+      var nx = $('#nx'); nx.hidden = false; nx.focus();
+    }
+    function finish() {
+      activeQuiz = null;
+      var n = list.length, r = score / n;
+      var msg = r === 1 ? 'Sans faute.' : r >= 0.75 ? 'Très bien : les bases sont solides.' : r >= 0.5 ? 'Bien parti : revoyez les cartes et les points manqués.' : 'À retravailler : reprenez l’essentiel, puis les cartes.';
+      var parts = Object.keys(byPart).map(function (id) {
+        var p = getPart(id), b = byPart[id];
+        return '<div class="pbar"><span>' + partLabel(p) + '</span><div class="bar"><i style="width:' + (b.ok / b.n * 100) + '%"></i></div><span class="mono">' + b.ok + ' / ' + b.n + '</span></div>';
+      }).join('');
+      var rev = wrong.length ? '<h3 style="margin-top:1em;font-size:1.15em">À revoir</h3>' + wrong.map(function (q) {
+        var good = q.opts.filter(function (o) { return o.ok; })[0].t;
+        return '<p style="margin:.3em 0"><b>' + q.q + '</b><br><span class="fine">Réponse : ' + good + '</span></p>';
+      }).join('') : '';
+      host.innerHTML = '<div class="card"><span class="mono">Résultat</span><div class="score">' + score + ' / ' + n + '</div><p class="lead">' + msg + '</p>' +
+        (parts ? '<div class="pbars">' + parts + '</div>' : '') + rev +
+        '<div class="toolbar" style="margin-top:1em"><button class="btn primary" id="again">Rejouer (ordre mélangé)</button></div></div>';
+      $('#again').addEventListener('click', function () { start(true); });
+    }
+    start(!!firstShuffle);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!activeQuiz || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target; if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
+    var k = 'abcd1234'.indexOf(e.key.toLowerCase());
+    if (k >= 0 && e.key.length === 1 && activeQuiz.state() === 'ask') { activeQuiz.choose(k % 4); e.preventDefault(); }
+    else if (e.key === 'ArrowRight' && activeQuiz.state() === 'fb') { activeQuiz.next(); }
+  });
+
+  /* ---------- TD ---------- */
+  function renderTD(p) {
+    var td = p.td, secs = td.minutes * 60, run = null;
+    function fmt(s) { var m = Math.floor(s / 60), r = s % 60; return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
+    panel.innerHTML = '<div class="card"><div class="qhead" style="align-items:flex-start"><div style="flex:1;min-width:14em"><h3>' + td.title + '</h3><p class="lead">' + td.enonce + '</p><p class="fine" style="margin-top:.4em">Travaillez en binôme pendant ' + td.minutes + ' minutes, puis corrigez étape par étape.</p></div>' +
+      '<div class="toolbar"><span class="timer" id="tm">' + fmt(secs) + '</span><button class="btn primary" id="tgo">Démarrer</button><button class="btn" id="trs">Remettre</button></div></div></div>' +
+      td.steps.map(function (s, k) {
+        return '<div class="card stepbox"><div><span class="tag">Question ' + (k + 1) + '</span></div><div class="q" style="font-size:1.25em;margin:.1em 0">' + s[0] + '</div>' +
+          '<div><button class="btn" data-k="' + k + '">Voir la correction</button></div><div class="corr" hidden>' + s[1] + '</div></div>';
+      }).join('') + '<div class="toolbar"><button class="btn" id="tall">Tout corriger</button></div>';
+    var tm = $('#tm'), go = $('#tgo');
+    function stop() { if (run) { clearInterval(run); run = null; } go.textContent = secs === 0 ? 'Terminé' : 'Reprendre'; }
+    go.addEventListener('click', function () {
+      if (run) { stop(); return; }
+      if (secs === 0) return;
+      go.textContent = 'Pause';
+      run = setInterval(function () {
+        secs--; tm.textContent = fmt(secs); tm.className = 'timer' + (secs <= 60 ? ' low' : '');
+        if (secs <= 0) { stop(); }
+      }, 1000);
+      timers.push(run);
+    });
+    $('#trs').addEventListener('click', function () { if (run) { clearInterval(run); run = null; } secs = td.minutes * 60; tm.textContent = fmt(secs); tm.className = 'timer'; go.textContent = 'Démarrer'; });
+    Array.prototype.forEach.call(panel.querySelectorAll('[data-k]'), function (b) {
+      b.addEventListener('click', function () {
+        var c = b.parentNode.nextElementSibling; c.hidden = !c.hidden;
+        b.textContent = c.hidden ? 'Voir la correction' : 'Masquer la correction';
+      });
+    });
+    $('#tall').addEventListener('click', function () {
+      var cs = panel.querySelectorAll('.corr'), show = Array.prototype.some.call(cs, function (c) { return c.hidden; });
+      Array.prototype.forEach.call(cs, function (c) { c.hidden = !show; c.parentNode.querySelector('[data-k]').textContent = show ? 'Masquer la correction' : 'Voir la correction'; });
+      this.textContent = show ? 'Tout masquer' : 'Tout corriger';
+    });
+  }
+
+  /* ---------- défi final ---------- */
+  function renderDefiHero() {
+    $('#hero').innerHTML = '<span class="mono">Pour finir</span><h2>Défi final</h2><p>Dix questions tirées au hasard dans toutes les parties : deux par partie. Le résultat montre quelle partie revoir.</p>';
+  }
+  function renderDefi() {
+    panel.innerHTML = '<div class="card"><h3>Prêt ?</h3><p class="lead">Chaque lancement tire de nouvelles questions. Au clavier : A, B, C, D (ou 1 à 4) pour répondre, flèche droite pour continuer.</p><div class="toolbar" style="margin-top:.8em"><button class="btn primary" id="go">Lancer le défi</button></div></div>';
+    $('#go').addEventListener('click', function () {
+      runQuiz(panel, function () {
+        var out = [];
+        PARTS.forEach(function (p) {
+          shuffle(p.quiz).slice(0, 2).forEach(function (q) { out.push({ q: q.q, o: q.o, a: q.a, e: q.e, part: p.id }); });
+        });
+        return out;
+      }, true);
+    });
+  }
+
+  /* ---------- démarrage ---------- */
+  var h = (location.hash || '').replace('#', '');
+  if (h === 'defi' || getPart(h)) { S.part = h; S.sub = h === 'defi' ? 'defi' : 'ess'; }
+  render();
+  window.addEventListener('hashchange', function () {
+    var x = (location.hash || '').replace('#', '');
+    if ((x === 'defi' || getPart(x)) && x !== S.part) go(x);
+  });
+})();
+</script>
+
+</body></html>
